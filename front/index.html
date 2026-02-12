@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Protocolos</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Gerenciador de Protocolos</h1>
+
+    <form id="form">
+        <input type="hidden" id="idEdicao">
+
+        <input type="date" id="data" required>
+        <input type="text" id="nome" placeholder="Nome" required>
+
+        <select id="status" required>
+            <option value="">Status</option>
+            <option value="pendente">Pendente</option>
+            <option value="em_andamento">Em andamento</option>
+            <option value="resolvido">Resolvido</option>
+            <option value="suspenso">Suspenso</option>
+        </select>
+
+        <input type="text" id="reclamacao" placeholder="Reclamação">
+        <input type="text" id="resolucao" placeholder="Resolução">
+
+        <button type="submit">Salvar</button>
+        <button type="button" id="cancelar" hidden>Cancelar</button>
+    </form>
+
+    <hr>
+
+    <input type="text" id="pesquisa" placeholder="Pesquisar...">
+
+    <table>
+        <thead>
+            <tr>
+                <th>Protocolo</th>
+                <th>Data</th>
+                <th>Nome</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+    </table>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
