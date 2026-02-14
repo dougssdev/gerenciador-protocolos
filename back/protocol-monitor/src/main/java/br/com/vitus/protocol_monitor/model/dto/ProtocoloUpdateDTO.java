@@ -4,9 +4,8 @@ import br.com.vitus.protocol_monitor.model.StatusDoProtocolo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
-import java.util.Date;
 
-public record ProtocoloRequestDTO(
+public record ProtocoloUpdateDTO (
 
         String nomePaciente,
         String unidade,
@@ -21,6 +20,5 @@ public record ProtocoloRequestDTO(
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
         LocalDate data
 ){
-
 
 }

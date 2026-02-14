@@ -2,7 +2,9 @@ package br.com.vitus.protocol_monitor.model.dto;
 
 import br.com.vitus.protocol_monitor.model.Protocolo;
 import br.com.vitus.protocol_monitor.model.StatusDoProtocolo;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public record ProtocoloResponseDTO(
@@ -16,7 +18,9 @@ public record ProtocoloResponseDTO(
         String resolucao,
         String resolvidoPor,
         String observacao,
-        Date data
+
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+        LocalDate data
 ) {
 
     public ProtocoloResponseDTO(Protocolo protocolo) {
