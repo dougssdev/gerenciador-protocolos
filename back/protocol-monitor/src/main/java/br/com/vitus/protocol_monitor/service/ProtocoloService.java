@@ -3,6 +3,7 @@ package br.com.vitus.protocol_monitor.service;
 import br.com.vitus.protocol_monitor.SemProtocolosException;
 import br.com.vitus.protocol_monitor.model.Protocolo;
 import br.com.vitus.protocol_monitor.model.StatusDoProtocolo;
+import br.com.vitus.protocol_monitor.model.Unidade;
 import br.com.vitus.protocol_monitor.model.dto.ProtocoloRequestDTO;
 import br.com.vitus.protocol_monitor.model.dto.ProtocoloResponseDTO;
 import br.com.vitus.protocol_monitor.model.dto.ProtocoloUpdateDTO;
@@ -10,9 +11,10 @@ import br.com.vitus.protocol_monitor.repository.ProtocoloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.time.LocalDate;
 
 @Service
 public class ProtocoloService {
@@ -26,12 +28,23 @@ public class ProtocoloService {
             return new ProtocoloResponseDTO(protocolo);
     }
 
-    public Page<ProtocoloResponseDTO> listaTodos(Pageable pageable) {
-        Page<ProtocoloResponseDTO> map = repository.findAllProtocolo(pageable).map(ProtocoloResponseDTO::new);
+    public Page<ProtocoloResponseDTO> listaTodos(Pageable pageable,
+                                                 StatusDoProtocolo status,
+                                                 Unidade unidade,
+                                                 LocalDate data,
+                                                 String nomePaciente,
+                                                 String reclamacao,
+                                                 String resolucao) {
+
+        Specification<Protocolo> spec = ProtocoloSpecification.filtrar(status,
+                data, unidade, nomePaciente, reclamacao, resolucao);
+
+        Page<ProtocoloResponseDTO> map = repository.findAll(spec, pageable).map(ProtocoloResponseDTO::new);
 
         if(map.isEmpty()) {
             throw new SemProtocolosException("Não há protocolo cadastrado.");
         }
+
         return map;
 
     }

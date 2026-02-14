@@ -24,7 +24,10 @@ public class Protocolo {
     private Long id;
 
     private String nomePaciente;
-    private String unidade;
+
+    @Enumerated(EnumType.STRING)
+    private Unidade unidade;
+
     private String fonte;
 
     @Enumerated(EnumType.STRING)

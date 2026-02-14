@@ -1,5 +1,7 @@
 package br.com.vitus.protocol_monitor.controller;
 
+import br.com.vitus.protocol_monitor.model.StatusDoProtocolo;
+import br.com.vitus.protocol_monitor.model.Unidade;
 import br.com.vitus.protocol_monitor.model.dto.ProtocoloRequestDTO;
 import br.com.vitus.protocol_monitor.model.dto.ProtocoloResponseDTO;
 import br.com.vitus.protocol_monitor.model.dto.ProtocoloUpdateDTO;
@@ -11,6 +13,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 @RestController
@@ -28,8 +31,16 @@ public class ProtocoloController {
     }
 
     @GetMapping("/listar")
-    public ResponseEntity<Page<ProtocoloResponseDTO>> listar(@PageableDefault(size = 10, sort = {"id"}) Pageable pagina){
-        Page<ProtocoloResponseDTO> protocoloResponseDTO = service.listaTodos(pagina);
+    public ResponseEntity<Page<ProtocoloResponseDTO>> listar(@PageableDefault(size = 10, sort = {"id"}) Pageable pagina,
+                                                             @RequestParam(required = false) StatusDoProtocolo status,
+                                                             @RequestParam(required = false) Unidade unidade,
+                                                             @RequestParam(required = false) LocalDate data,
+                                                             @RequestParam(required = false) String nomePaciente,
+                                                             @RequestParam(required = false) String reclamacao,
+                                                             @RequestParam(required = false) String resolucao
+                                                             ){
+
+        Page<ProtocoloResponseDTO> protocoloResponseDTO = service.listaTodos(pagina, status, unidade, data, nomePaciente, reclamacao, resolucao);
         return ResponseEntity.ok(protocoloResponseDTO);
     }
 
@@ -74,4 +85,5 @@ public class ProtocoloController {
         service.deletar(id);
         return ResponseEntity.noContent().build();
     }
+
 }

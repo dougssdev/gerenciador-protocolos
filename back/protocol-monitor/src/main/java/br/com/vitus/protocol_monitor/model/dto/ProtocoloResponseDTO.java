@@ -2,6 +2,7 @@ package br.com.vitus.protocol_monitor.model.dto;
 
 import br.com.vitus.protocol_monitor.model.Protocolo;
 import br.com.vitus.protocol_monitor.model.StatusDoProtocolo;
+import br.com.vitus.protocol_monitor.model.Unidade;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
@@ -11,7 +12,7 @@ public record ProtocoloResponseDTO(
 
         Long id,
         String nomePaciente,
-        String unidade,
+        Unidade unidade,
         String fonte,
         StatusDoProtocolo status,
         String reclamacao,
