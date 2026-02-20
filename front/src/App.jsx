@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import ProtocoloForm from "./components/ProtocoloForm";
-import TabelaProtocolos from "./components/TabelaProtocolos";
-import { buscarProtocolos, excluirProtocolo } from "./services/protocoloService";
+import ProtocoloForm from "./ProtocoloForm";
+import TabelaProtocolos from "./TabelaProtocolos";
+import { buscarProtocolos, excluirProtocolo } from "./protocoloService";
 
 function App() {
   const [protocolos, setProtocolos] = useState([]);

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { criarProtocolo } from "../services/protocoloService";
+import { criarProtocolo } from "./protocoloService";
 
 function ProtocoloForm({ onSalvar }) {
   const [form, setForm] = useState({
