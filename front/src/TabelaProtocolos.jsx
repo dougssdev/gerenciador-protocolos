@@ -10,7 +10,7 @@ function TabelaProtocolos({ protocolos, pesquisa, onExcluir }) {
     <table>
       <thead>
         <tr>
-          <th>Protocolo</th>
+          <th>ID</th>
           <th>Data</th>
           <th>Nome</th>
           <th>Status</th>
@@ -20,8 +20,8 @@ function TabelaProtocolos({ protocolos, pesquisa, onExcluir }) {
 
       <tbody>
         {filtrados.map(p => (
-          <tr key={p.protocolo}>
-            <td>{p.protocolo}</td>
+          <tr key={p.id}>
+            <td>{p.id}</td>
             <td>{new Date(p.data).toLocaleDateString("pt-BR")}</td>
             <td>{p.nome}</td>
             <td>
@@ -30,7 +30,7 @@ function TabelaProtocolos({ protocolos, pesquisa, onExcluir }) {
               </span>
             </td>
             <td>
-              <button onClick={() => onExcluir(p.protocolo)}>
+              <button onClick={() => onExcluir(p.id)}>
                 Excluir
               </button>
             </td>
