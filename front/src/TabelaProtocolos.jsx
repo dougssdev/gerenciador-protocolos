@@ -1,3 +1,14 @@
+function formatarStatus(status) {
+  const labels = {
+    PENDENTE: "Pendente",
+    EM_ANDAMENTO: "Em andamento",
+    RESOLVIDO: "Resolvido",
+    SUSPENSO: "Suspenso"
+  };
+
+  return labels[status] ?? status;
+}
+
 function TabelaProtocolos({ protocolos, pesquisa, onExcluir }) {
   const filtrados = protocolos.filter(p =>
     Object.values(p)
@@ -26,7 +37,7 @@ function TabelaProtocolos({ protocolos, pesquisa, onExcluir }) {
             <td>{p.nome}</td>
             <td>
               <span className={`status ${p.status}`}>
-                {p.status.replace("_", " ")}
+                {formatarStatus(p.status)}
               </span>
             </td>
             <td>
