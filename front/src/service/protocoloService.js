@@ -57,3 +57,8 @@ export async function excluirProtocolo(id) {
     throw new Error("Erro ao deletar protocolo.");
   }
 }
+
+export async function atualizarProtocolo(id, dados) {
+  const response = await api.patch(`/protocolos/atualizar/${id}`, dados);
+  return response.data;
+}
