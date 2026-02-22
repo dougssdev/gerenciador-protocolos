@@ -1,25 +1,21 @@
 import { useState } from "react";
 import { criarProtocolo } from "./protocoloService";
 
+const initialForm = {
+  data: "",
+  nome: "",
+  status: "",
+  reclamacao: "",
+  resolucao: ""
+};
+
 function ProtocoloForm({ onSalvar }) {
-  const [form, setForm] = useState({
-    data: "",
-    nome: "",
-    status: "",
-    reclamacao: "",
-    resolucao: ""
-  });
+  const [form, setForm] = useState(initialForm);
 
   async function submit(e) {
     e.preventDefault();
     await criarProtocolo(form);
-    setForm({
-      data: "",
-      nome: "",
-      status: "",
-      reclamacao: "",
-      resolucao: ""
-    });
+    setForm(initialForm);
     onSalvar();
   }
 
