@@ -134,23 +134,24 @@ function TabelaProtocolos({ protocolos, pesquisa, onExcluir, onEditar }) {
             position: relative;
           }
 
-          .print-container::before {
-            content: "";
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            width: 400px; /* tamanho da marca */
-            height: 400px;
-            background-image: url(${logo});
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: contain;
-            opacity: 0.06; /* intensidade da marca */
-            transform: translate(-50%, -50%);
-            z-index: 0;
+          @media print{
+            .print-container::before {
+              content: "";
+              position: fixed;
+              top: 50%;
+              left: 50%;
+              width: 400px; /* tamanho da marca */
+              height: 400px;
+              background-image: url(${logo});
+              background-repeat: no-repeat;
+              background-position: center;
+              background-size: contain;
+              opacity: 0.06; /* intensidade da marca */
+              transform: translate(-50%, -50%);
+              z-index: 0;
+            }
           }
-
-
+          
           .print-container > * {
             position: relative;
             z-index: 1;
