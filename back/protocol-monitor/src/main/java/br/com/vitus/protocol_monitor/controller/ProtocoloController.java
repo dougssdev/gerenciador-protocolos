@@ -70,7 +70,7 @@ public class ProtocoloController {
 
     @PatchMapping("atualizar/status/em_andamento/{id}")
     public ResponseEntity<ProtocoloResponseDTO> atualizaStatusEmAndamento(@PathVariable Long id){
-        ProtocoloResponseDTO data = service.atualizaStatusResolvido(id);
+        ProtocoloResponseDTO data = service.atualizaStatusEmAndamento(id);
         return ResponseEntity.ok(data);
     }
 
