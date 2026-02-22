@@ -41,10 +41,10 @@ function ProtocoloForm({ onSalvar }) {
         required
       >
         <option value="">Status</option>
-        <option value="pendente">Pendente</option>
-        <option value="em_andamento">Em andamento</option>
-        <option value="resolvido">Resolvido</option>
-        <option value="suspenso">Suspenso</option>
+        <option value="PENDENTE">Pendente</option>
+        <option value="EM_ANDAMENTO">Em andamento</option>
+        <option value="RESOLVIDO">Resolvido</option>
+        <option value="SUSPENSO">Suspenso</option>
       </select>
 
       <input
