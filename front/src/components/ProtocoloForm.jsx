@@ -78,6 +78,12 @@ function ProtocoloForm({ onSalvar }) {
     <div className="form-card">
     <form className="form-grid" onSubmit={submit}>
         <input
+          type="date"
+          value={form.data}
+          onChange={e => atualizarCampo("data", e.target.value)}
+          required
+        />
+        <input
           type="text"
           placeholder="Nome do paciente"
           value={form.nomePaciente}
@@ -159,13 +165,6 @@ function ProtocoloForm({ onSalvar }) {
           value={form.observacao}
           onChange={e => atualizarCampo("observacao", e.target.value)}
           className="full-width"
-        />
-
-        <input
-          type="date"
-          value={form.data}
-          onChange={e => atualizarCampo("data", e.target.value)}
-          required
         />
 
         <button className="btn-primary">

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import logo from "../assets/logocreb.png";
 
 function formatarStatus(status) {
   const labels = {
@@ -30,10 +31,200 @@ function TabelaProtocolos({ protocolos, pesquisa, onExcluir, onEditar }) {
   
   const [protocoloSelecionado, setProtocoloSelecionado] = useState(null);
  
+  const formatarProtocolo = (id) => {
+  return `PRT-${String(id).padStart(3, "0")}`;
+};
+  
   function editarProtocolo(protocolo) {
     if (!onEditar) return;
     onEditar(protocolo);
   }
+
+  function gerarFichaImpressao(protocolo) {
+  const novaJanela = window.open("", "_blank");
+
+  novaJanela.document.write(`
+    <html>
+      <head>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+          }
+
+          h1 {
+            text-align: center;
+            margin-bottom: 30px;
+          }
+
+          .print-logo{
+            
+          }
+
+          .linha {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+          }
+
+          .bloco {
+            width: 48%;
+          }
+
+          .label {
+            font-weight: bold;
+            font-size: 12px;
+            color: #555;
+          }
+
+          .valor {
+            margin-top: 4px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 4px;
+          }
+
+          .area {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 5px;
+            min-height: 60px;
+          }
+
+          .print-btn {
+            margin-top: 30px;
+            padding: 8px 16px;
+            cursor: pointer;
+          }
+
+          @media print {
+            .print-btn {
+              display: none;
+            }
+          }
+          .print-header {
+              display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #000;
+            padding-bottom: 15px;
+          }
+
+          .print-logo {
+            width: 120px;
+            height: auto;
+          }
+
+          .print-title {
+            text-align: right;
+          }
+
+          .print-title h1 {
+            margin: 0;
+            font-size: 28px;
+          }
+
+          .print-title h2 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: normal;
+          }
+
+          .print-container {
+            position: relative;
+          }
+
+          .print-container::before {
+            content: "";
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 400px; /* tamanho da marca */
+            height: 400px;
+            background-image: url(${logo});
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            opacity: 0.06; /* intensidade da marca */
+            transform: translate(-50%, -50%);
+            z-index: 0;
+          }
+
+
+          .print-container > * {
+            position: relative;
+            z-index: 1;
+          }
+
+        </style>
+      </head>
+
+      <body>
+
+      <div class="print-container">
+
+      <h1>Ficha de Protocolo - ${formatarProtocolo(protocolo.id)}</h1>
+
+        <div class="linha">
+          <div class="bloco">
+            <div class="label">DATA:</div>
+            <div class="valor">${protocolo.data}</div>
+          </div>
+
+          <div class="bloco">
+            <div class="label">UNIDADE:</div>
+            <div class="valor">${protocolo.unidade}</div>
+          </div>
+        </div>
+
+        <div class="linha">
+          <div class="bloco">
+            <div class="label">FONTE:</div>
+            <div class="valor">${protocolo.fonte}</div>
+          </div>
+
+          <div class="bloco">
+            <div class="label">STATUS:</div>
+            <div class="valor">${protocolo.status}</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:20px;">
+          <div class="label">NOME DO PACIENTE:</div>
+          <div class="valor">${protocolo.nome}</div>
+        </div>
+
+        <div style="margin-bottom:20px;">
+          <div class="label">RECLAMAÇÃO / ASSUNTO:</div>
+          <div class="area">${protocolo.reclamacao || "-"}</div>
+        </div>
+
+        <div style="margin-bottom:20px;">
+          <div class="label">RESOLUÇÃO DETALHADA:</div>
+          <div class="area">${protocolo.resolucao || "-"}</div>
+        </div>
+
+        <div class="linha">
+          <div class="bloco">
+            <div class="label">RESOLVIDO POR:</div>
+            <div class="valor">${protocolo.resolvidoPor || "-"}</div>
+          </div>
+
+          <div class="bloco">
+            <div class="label">OBSERVAÇÕES:</div>
+            <div class="valor">${protocolo.observacao || "-"}</div>
+          </div>
+        </div>
+
+        <button class="print-btn" onclick="window.print()">🖨️ Imprimir</button>
+
+      </div>
+      </body>
+    </html>
+  `);
+
+  novaJanela.document.close();
+}
 
   const filtrados = protocolos.filter(p =>
     Object.values(p)
@@ -78,6 +269,7 @@ function TabelaProtocolos({ protocolos, pesquisa, onExcluir, onEditar }) {
       <td>
         <button onClick={() => onExcluir(p.id)}>🗑️</button>
         <button onClick={() => setProtocoloSelecionado(p)}>✏️</button>
+        <button onClick={() => gerarFichaImpressao(p)}>🖨️</button>
       </td>
     </tr>
   ))}
