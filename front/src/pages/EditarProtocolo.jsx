@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { criarProtocolo, toApiPayload } from "../service/protocoloService";
+import { useParams } from "react-router-dom";
+import {
+  buscarProtocoloPorId,
+  atualizarProtocolo,
+  toApiPayload
+} from "../service/protocoloService";
+import "./EditarProtocolo.css";
 
 const initialForm = {
   nomePaciente: "",
@@ -13,114 +19,65 @@ const initialForm = {
   data: ""
 };
 
-function ProtocoloForm({
-  protocoloEmEdicao,
-  onSalvarCadastro,
-  onSalvarEdicao,
-  onCancelarEdicao
-}) {
+function EditarProtocolo() {
+  const { id } = useParams();
   const [form, setForm] = useState(initialForm);
-
-  const handleChange = (e) => {
-  const { name, value } = e.target;
-
-  setForm(prev => ({
-    ...prev,
-    [name]: value
-  }));
-};
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-  if (protocoloEmEdicao) {
-    setForm({
-      nomePaciente: protocoloEmEdicao.nome,
-      unidade: protocoloEmEdicao.unidade,
-      fonte: protocoloEmEdicao.fonte,
-      status: protocoloEmEdicao.status,
-      reclamacao: protocoloEmEdicao.reclamacao,
-      resolucaoDetalhada: protocoloEmEdicao.resolucaoDetalhada ?? "",
-      resolvidoPor: protocoloEmEdicao.resolvidoPor ?? "",
-      observacao: protocoloEmEdicao.observacao ?? "",
-      data: protocoloEmEdicao.data
-    });
-  }
-}, [protocoloEmEdicao]);
+    async function carregar() {
+      const protocolo = await buscarProtocoloPorId(id);
+
+      setForm({
+        nomePaciente: protocolo.nome,
+        unidade: protocolo.unidade,
+        fonte: protocolo.fonte,
+        status: protocolo.status,
+        reclamacao: protocolo.reclamacao,
+        resolucaoDetalhada: protocolo.resolucaoDetalhada ?? "",
+        resolvidoPor: protocolo.resolvidoPor ?? "",
+        observacao: protocolo.observacao ?? "",
+        data: protocolo.data
+      });
+
+      setLoading(false);
+    }
+
+    carregar();
+  }, [id]);
 
   function atualizarCampo(campo, valor) {
     setForm({ ...form, [campo]: valor });
   }
-  
 
-  function validarFormulario() {
-    const obrigatorios = [
-      "nomePaciente",
-      "unidade",
-      "fonte",
-      "status",
-      "reclamacao",
-      "data"
-    ];
-
-    const faltando = obrigatorios.some(campo => !form[campo]?.trim?.() && !form[campo]);
-
-    if (faltando) {
-      return "Preencha todos os campos obrigatórios.";
-    }
-
-    if (form.status === "RESOLVIDO") {
-      if (!form.resolucaoDetalhada.trim()) {
-        return "A resolução detalhada é obrigatória para protocolos resolvidos.";
-      }
-
-      if (!form.resolvidoPor.trim()) {
-        return "Informe quem resolveu o protocolo quando o status for resolvido.";
-      }
-    }
-
-    return null;
-  }
-  
   async function submit(e) {
-  e.preventDefault();
-
-  const erroValidacao = validarFormulario();
-  if (erroValidacao) {
-    alert(erroValidacao);
-    return;
+    e.preventDefault();
+    await atualizarProtocolo(id, toApiPayload(form));
+    alert("Protocolo atualizado com sucesso!");
+    window.close(); // opcional
   }
 
-  const payload = toApiPayload(form);
-
-  if (protocoloEmEdicao) {
-    await onSalvarEdicao(payload);
-  } else {
-    await criarProtocolo(payload);
-    onSalvarCadastro();
-  }
-
-  setForm(initialForm);
-}
+  if (loading) return <p>Carregando...</p>;
 
   return (
-    <div className="form-card">
-    <h2>
-        {protocoloEmEdicao ? "Editar Protocolo" : "Registrar Protocolo"}
-    </h2>
-    <form className="form-grid" onSubmit={submit}>
+    <div className="editar-protocolo-page">
+        <div className="editar-protocolo-card">
+      <h1>Editar Protocolo #{id}</h1>
+
+      <span className="titulo">Data:</span>
+      <form onSubmit={submit}>
         <input
           type="date"
           value={form.data}
           onChange={e => atualizarCampo("data", e.target.value)}
-          required
         />
+      <span className="titulo">Nome:</span>  
         <input
           type="text"
-          placeholder="Nome do paciente"
           value={form.nomePaciente}
           onChange={e => atualizarCampo("nomePaciente", e.target.value)}
-          required
         />
-
+      <span className="titulo">Unidade:</span>
         <select
           value={form.unidade}
           onChange={e => atualizarCampo("unidade", e.target.value)}
@@ -135,7 +92,7 @@ function ProtocoloForm({
           <option value="CREB_INTERLAGOS">CREB Interlagos</option>
           <option value="CREB_SANTO_AMARO">CREB Santo Amaro</option>
         </select>
-
+      <span className="titulo">Fonte:</span>
         <select
           value={form.fonte}
           onChange={e => atualizarCampo("fonte", e.target.value)}
@@ -152,7 +109,7 @@ function ProtocoloForm({
           <option value="Whatsapp">Whatsapp</option>
 
           </select>  
-      
+      <span className="titulo">Status:</span>
         <select
           value={form.status}
           onChange={e => atualizarCampo("status", e.target.value)}
@@ -164,7 +121,7 @@ function ProtocoloForm({
           <option value="RESOLVIDO">Resolvido</option>
           <option value="SUSPENSO">Suspenso</option>
         </select>
-
+      <span className="titulo">Reclamção:</span>
         <textarea
           placeholder="Reclamação/Assunto"
           value={form.reclamacao}
@@ -172,7 +129,7 @@ function ProtocoloForm({
           required
           className="full-width"
         />
-
+      <span className="titulo">Resolução:</span>
         <textarea
           placeholder="Resolução detalhada"
           value={form.resolucaoDetalhada}
@@ -180,7 +137,7 @@ function ProtocoloForm({
           required={form.status === "RESOLVIDO"}
           className="full-width"
         />
-
+      <span className="titulo">Resolvido por:</span>
         <input
           type="text"
           placeholder="Resolvido por"
@@ -189,7 +146,7 @@ function ProtocoloForm({
           required={form.status === "RESOLVIDO"}
           className="full-width"
         />
-
+      <span className="titulo">Observação:</span>
         <textarea
           placeholder="Observação"
           value={form.observacao}
@@ -198,21 +155,12 @@ function ProtocoloForm({
         />
 
         <button className="btn-primary">
-          {protocoloEmEdicao ? "Salvar alterações" : "Registrar Protocolo"}
+          Salvar alterações
         </button>
-
-        {protocoloEmEdicao && (
-        <button
-            type="button"
-            className="btn-secondary"
-            onClick={onCancelarEdicao}
-        >
-          Cancelar edição
-        </button>
-)}
-    </form>
+      </form>
+    </div>
     </div>
   );
 }
 
-export default ProtocoloForm;
+export default EditarProtocolo;

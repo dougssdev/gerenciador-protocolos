@@ -12,6 +12,20 @@ function formatarStatus(status) {
   return labels[status] ?? status;
 }
 
+function formatarUnidade(unidade){
+  const labels ={
+    CREB_BOTAFOGO : "CREB Botafogo",
+    CREB_BARRA: "CREB Barra",
+    CREB_COPACABANA: "CREB Copacabana",
+    CORTREL: "Cortrel",
+    COT: "COT",
+    CREB_INTERLAGOS: "CREB Interlagos",
+    CREB_SANTO_AMARO: "CREB Santo Amaro"   
+  }
+
+  return labels[unidade] ?? unidade;
+}
+
 function formatarData(valor) {
   if (!valor) return "";
 
@@ -29,16 +43,11 @@ function formatarData(valor) {
 
 function TabelaProtocolos({ protocolos, pesquisa, onExcluir, onEditar }) {
   
-  const [protocoloSelecionado, setProtocoloSelecionado] = useState(null);
  
   const formatarProtocolo = (id) => {
   return `PRT-${String(id).padStart(3, "0")}`;
 };
   
-  function editarProtocolo(protocolo) {
-    if (!onEditar) return;
-    onEditar(protocolo);
-  }
 
   function gerarFichaImpressao(protocolo) {
   const novaJanela = window.open("", "_blank");
@@ -174,7 +183,7 @@ function TabelaProtocolos({ protocolos, pesquisa, onExcluir, onEditar }) {
 
           <div class="bloco">
             <div class="label">UNIDADE:</div>
-            <div class="valor">${protocolo.unidade}</div>
+            <div class="valor">${formatarUnidade(protocolo.unidade)}</div>
           </div>
         </div>
 
@@ -186,7 +195,7 @@ function TabelaProtocolos({ protocolos, pesquisa, onExcluir, onEditar }) {
 
           <div class="bloco">
             <div class="label">STATUS:</div>
-            <div class="valor">${protocolo.status}</div>
+            <div class="valor">${formatarStatus(protocolo.status)}</div>
           </div>
         </div>
 
@@ -202,7 +211,7 @@ function TabelaProtocolos({ protocolos, pesquisa, onExcluir, onEditar }) {
 
         <div style="margin-bottom:20px;">
           <div class="label">RESOLUÇÃO DETALHADA:</div>
-          <div class="area">${protocolo.resolucao || "-"}</div>
+          <div class="area">${protocolo.resolucaoDetalhada || "-"}</div>
         </div>
 
         <div class="linha">
@@ -246,6 +255,7 @@ function TabelaProtocolos({ protocolos, pesquisa, onExcluir, onEditar }) {
           <th>Fonte</th>
           <th>Status</th>
           <th>Reclamação</th>
+          <th>Resolução</th>
           <th>Resolvido por</th>
           <th>Observação</th>
           <th>Ações</th>
@@ -257,7 +267,11 @@ function TabelaProtocolos({ protocolos, pesquisa, onExcluir, onEditar }) {
       <td>{p.id}</td>
       <td>{formatarData(p.data)}</td>
       <td>{p.nome}</td>
-      <td>{p.unidade}</td>
+      <td>
+        <span className={`unidade ${p.unidade}`}>
+            {formatarUnidade(p.unidade)}
+        </span>
+      </td>
       <td>{p.fonte}</td>
       <td>
         <span className={`status ${p.status}`}>
@@ -265,73 +279,18 @@ function TabelaProtocolos({ protocolos, pesquisa, onExcluir, onEditar }) {
         </span>
       </td>
       <td>{p.reclamacao}</td>
+      <td>{p.resolucaoDetalhada}</td>
       <td>{p.resolvidoPor}</td>
       <td>{p.observacao}</td>
       <td>
         <button onClick={() => onExcluir(p.id)}>🗑️</button>
-        <button onClick={() => setProtocoloSelecionado(p)}>✏️</button>
+        <button onClick={() => window.open(`/protocolos/editar/${p.id}`, "_blank")}>✏️</button>
         <button onClick={() => gerarFichaImpressao(p)}>🖨️</button>
       </td>
     </tr>
   ))}
 </tbody>
     </table>
-     {protocoloSelecionado && (
-      <div className="modal-overlay">
-        <div className="modal">
-          <h3>Editar Protocolo</h3>
-
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              onEditar(protocoloSelecionado);
-              setProtocoloSelecionado(null);
-            }}
-          >
-            <input
-              type="text"
-              value={protocoloSelecionado.nome}
-              onChange={(e) =>
-                setProtocoloSelecionado({
-                  ...protocoloSelecionado,
-                  nome: e.target.value
-                })
-              }
-              placeholder="Nome"
-            />
-
-            <select
-              value={protocoloSelecionado.status}
-              onChange={(e) =>
-                setProtocoloSelecionado({
-                  ...protocoloSelecionado,
-                  status: e.target.value
-                })
-              }
-            >
-              <option value="PENDENTE">Pendente</option>
-              <option value="EM_ANDAMENTO">Em andamento</option>
-              <option value="RESOLVIDO">Resolvido</option>
-              <option value="SUSPENSO">Suspenso</option>
-            </select>
-
-            <div className="modal-botoes">
-              <button type="submit" className="btn-salvar">
-                Atualizar
-              </button>
-
-              <button
-                type="button"
-                className="btn-cancelar"
-                onClick={() => setProtocoloSelecionado(null)}
-              >
-                Cancelar
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    )}
     </>
   )
  

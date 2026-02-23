@@ -39,6 +39,11 @@ export async function buscarProtocolos() {
   }
 }
 
+export async function buscarProtocoloPorId(id) {
+  const response = await api.get(`/protocolos/listar/${id}`);
+  return fromApiResponse(response.data);
+}
+
 export async function criarProtocolo(protocolo) {
   try {
     const response = await api.post("/protocolos/cadastrar", protocolo);

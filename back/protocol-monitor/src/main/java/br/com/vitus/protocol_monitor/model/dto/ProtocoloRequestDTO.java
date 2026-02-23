@@ -14,7 +14,6 @@ public record ProtocoloRequestDTO(
         String fonte,
         StatusDoProtocolo status,
         String reclamacao,
-        String resolucao,
         String resolucaoDetalhada,
         String resolvidoPor,
         String observacao,
