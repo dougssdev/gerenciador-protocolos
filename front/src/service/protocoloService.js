@@ -67,3 +67,4 @@ export async function atualizarProtocolo(id, dados) {
   const response = await api.patch(`/protocolos/atualizar/${id}`, dados);
   return response.data;
 }
+

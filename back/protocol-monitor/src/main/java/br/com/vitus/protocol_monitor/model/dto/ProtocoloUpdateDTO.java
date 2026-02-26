@@ -16,8 +16,6 @@ public record ProtocoloUpdateDTO (
         String resolucaoDetalhada,
         String resolvidoPor,
         String observacao,
-
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
         LocalDate data
 ){
 

@@ -52,9 +52,13 @@ function EditarProtocolo() {
 
   async function submit(e) {
     e.preventDefault();
-    await atualizarProtocolo(id, toApiPayload(form));
+    
+    await atualizarProtocolo(id, toApiPayload(form));    
+    
+    localStorage.setItem("protocolosAtualizados", Date.now().toString());
+
     alert("Protocolo atualizado com sucesso!");
-    window.close(); // opcional
+    window.close(); 
   }
 
   if (loading) return <p>Carregando...</p>;

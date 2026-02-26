@@ -5,12 +5,12 @@ import "./App.css";
 
 function App() {
   return (
-    <BrowserRouter>
+    
       <Routes>
         <Route path="/" element={<ListaProtocolos />} />
         <Route path="/protocolos/editar/:id" element={<EditarProtocolo />} />
       </Routes>
-    </BrowserRouter>
+    
   );
 }
 
