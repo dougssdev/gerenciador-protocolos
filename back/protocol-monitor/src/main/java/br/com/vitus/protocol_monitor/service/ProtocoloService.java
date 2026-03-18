@@ -41,10 +41,7 @@ public class ProtocoloService {
 
         Page<ProtocoloResponseDTO> map = repository.findAll(spec, pageable).map(ProtocoloResponseDTO::new);
 
-        if(map.isEmpty()) {
-            throw new SemProtocolosException("Não há protocolo cadastrado.");
-        }
-
+    
         return map;
 
     }

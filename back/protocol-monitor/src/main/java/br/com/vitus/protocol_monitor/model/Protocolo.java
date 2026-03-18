@@ -26,6 +26,7 @@ public class Protocolo {
     private String nomePaciente;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "unidade", length = 50)
     private Unidade unidade;
 
     private String fonte;

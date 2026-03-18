@@ -8,10 +8,10 @@
 		<version>4.0.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>br.com.vitus</groupId>
-	<artifactId>protocol-monitor</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>protocol-monitor</name>
+		<groupId>br.com.vitus</groupId>
+		<artifactId>protocol-monitor</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<name>protocol-monitor</name>
 	<description>Aplicação responsável pelo gerenciamento de protocolos e reclamações</description>
 	<url/>
 	<licenses>
@@ -102,5 +102,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
