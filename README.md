@@ -125,7 +125,7 @@ protocol-monitor
 ## 1️⃣ Clonar o repositório
 
 ```
-git clone https://github.com/seu-usuario/protocol-monitor.git
+git clone https://github.com/dougssdev/gerenciador-protocolos.git
 cd protocol-monitor
 ```
 
