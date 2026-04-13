@@ -1,7 +1,5 @@
-<<<<<<< HEAD
+
 version: '3.9'
-=======
->>>>>>> 3fdc111557b91d2ff5678a9b0a06b3829e2a522b
 
 services:
 
@@ -15,14 +13,12 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-<<<<<<< HEAD
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOTPASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql
     ports:
       - "3306:3306"
-=======
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql
     ports:
@@ -32,18 +28,15 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
->>>>>>> 3fdc111557b91d2ff5678a9b0a06b3829e2a522b
 
   backend:
     build: ./back/protocol-monitor
     container_name: backend
     depends_on:
-<<<<<<< HEAD
       - mysql
-=======
-      mysql:
-        condition: service_healthy
->>>>>>> 3fdc111557b91d2ff5678a9b0a06b3829e2a522b
+    mysql:
+      condition: service_healthy
+
     env_file:
       - .env
     environment:
@@ -52,10 +45,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "8080:8080"
-<<<<<<< HEAD
-=======
    
->>>>>>> 3fdc111557b91d2ff5678a9b0a06b3829e2a522b
 
   frontend:
     build: ./front
