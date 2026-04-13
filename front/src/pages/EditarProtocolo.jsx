@@ -94,6 +94,7 @@ function EditarProtocolo() {
           <option value="CORTREL">CORTREL</option>
           <option value="COT">COT</option>
           <option value="CREB_INTERLAGOS">CREB Interlagos</option>
+          <option value="CREB_MEIER">CREB Méier</option>
           <option value="CREB_SANTO_AMARO">CREB Santo Amaro</option>
         </select>
       <span className="titulo">Fonte:</span>

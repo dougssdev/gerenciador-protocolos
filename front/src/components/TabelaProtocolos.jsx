@@ -20,6 +20,7 @@ function formatarUnidade(unidade){
     CORTREL: "Cortrel",
     COT: "COT",
     CREB_INTERLAGOS: "CREB Interlagos",
+    CREB_MEIER: "CREB Méier",
     CREB_SANTO_AMARO: "CREB Santo Amaro"   
   }
 
@@ -245,56 +246,57 @@ function TabelaProtocolos({ protocolos, pesquisa, onExcluir, onEditar }) {
 
   return (
     <>
-    <table className="tabela">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Data</th>
-          <th>Nome</th>
-          <th>Unidade</th>
-          <th>Fonte</th>
-          <th>Status</th>
-          <th>Reclamação</th>
-          <th>Resolução</th>
-          <th>Resolvido por</th>
-          <th>Observação</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-  {filtrados.map(p => (
-    <tr key={p.id}>
-      <td>{p.id}</td>
-      <td>{formatarData(p.data)}</td>
-      <td>{p.nome}</td>
-      <td>
-        <span className={`unidade ${p.unidade}`}>
-            {formatarUnidade(p.unidade)}
-        </span>
-      </td>
-      <td>{p.fonte}</td>
-      <td>
-        <span className={`status ${p.status}`}>
-          {formatarStatus(p.status)}
-        </span>
-      </td>
-      <td>{p.reclamacao}</td>
-      <td>{p.resolucaoDetalhada}</td>
-      <td>{p.resolvidoPor}</td>
-      <td>{p.observacao}</td>
-      <td>
-        <button onClick={() => onExcluir(p.id)}>🗑️</button>
-        <button onClick={() => window.open(`/protocolos/editar/${p.id}`, "_blank")}>✏️</button>
-        <button onClick={() => gerarFichaImpressao(p)}>🖨️</button>
-      </td>
-    </tr>
-  ))}
-</tbody>
-    </table>
+      <div className="tabela-container">
+        <table className="tabela">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Data</th>
+            <th>Nome</th>
+            <th>Unidade</th>
+            <th>Fonte</th>
+            <th>Status</th>
+            <th>Reclamação</th>
+            <th>Resolução</th>
+            <th>Resolvido por</th>
+            <th>Observação</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+    {filtrados.map(p => (
+      <tr key={p.id}>
+        <td>{p.id}</td>
+        <td>{formatarData(p.data)}</td>
+        <td>{p.nome}</td>
+        <td>
+          <span className={`unidade ${p.unidade}`}>
+              {formatarUnidade(p.unidade)}
+          </span>
+        </td>
+        <td>{p.fonte}</td>
+        <td>
+          <span className={`status ${p.status}`}>
+            {formatarStatus(p.status)}
+          </span>
+        </td>
+        <td>{p.reclamacao}</td>
+        <td>{p.resolucaoDetalhada}</td>
+        <td>{p.resolvidoPor}</td>
+        <td className="col-observacao">{p.observacao}</td>
+        <td>
+          <button onClick={() => onExcluir(p.id)}>🗑️</button>
+          <button onClick={() => window.open(`/protocolos/editar/${p.id}`, "_blank")}>✏️</button>
+          <button onClick={() => gerarFichaImpressao(p)}>🖨️</button>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+      </table>
+      </div>
     </>
   )
- 
-      
+
 }
 
 export default TabelaProtocolos;
